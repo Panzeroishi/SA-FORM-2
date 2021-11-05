@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,18 +9,44 @@
 <body>
     
 
-    <form action="#" method = "get">
+    <?php
+    if(isset($_GET['enviar'])){
+        $cnpj = $_GET["cnpj"];
+        $link ="https://www.receitaws.com.br/v1/cnpj/$cnpj&quot;";
+        $iniciar= curl_init($link);
 
-    <label for="">Insira o CNPJ</label>
-    <input type="text" name="cnpj">
+        curl_setopt($iniciar,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($iniciar, CURLOPT_SSL_VERIFYPEER, false);
+        $resultados = json_decode(curl_exec($iniciar));
+      foreach($resultados as $chave=>$texto){
+          $$chave = $texto;
+      }
+      curl_close($iniciar);
+    }
 
+
+   var_dump($resultados);
+    
+    ?>
+
+<form action="#" method ="get">
+
+<label for="">Insira o CNPJ</label>
+<input type="text" name="cnpj">
+
+
+
+<input type="submit" name= "enviar">
+
+
+</form>
 
 <div class="resultado">
     <h3>Resultados</h3>
     <label for="">Razão Social</label>
-    <input type="text">
+    <input type="text" id="nome" value ="<?= $nome ?>">
     <label for="">Nome Fantasia</label>
-    <input type="text">
+    <input type="text" value ='<?=$nome?>'>
     <label for="">Data de Abertura</label>
     
     
@@ -47,22 +73,6 @@
     <input type="text">
     
 </div>
-    <input type="submit" name= "enviar">
-    
-    
-</form>
-
-    <?php
-    if(isset($_GET["enviar"])){
-        $cnpj = $_GET["cnpj"];
-        $link = "https://www.receitaws.com.br/v1/cnpj/$cnpj&quot;;";
-        $iniciar= curl_init($link);
-
-        curl_setopt($iniciar,CURLOPT_RETURNTRANSFER,true)
-    }
-    
-    
-    ?>
 
 
 
