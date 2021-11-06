@@ -10,22 +10,38 @@
     
 
     <?php
-    if(isset($_GET['enviar'])){
+    /**if(isset($_GET['enviar'])){
         $cnpj = $_GET["cnpj"];
-        $link ="https://www.receitaws.com.br/v1/cnpj/$cnpj&quot;";
+        $link = "https://www.receitaws.com.br/v1/cnpj/$cnpj&quot;";
         $iniciar= curl_init($link);
 
         curl_setopt($iniciar,CURLOPT_RETURNTRANSFER,true);
         curl_setopt($iniciar, CURLOPT_SSL_VERIFYPEER, false);
         $resultados = json_decode(curl_exec($iniciar));
-      foreach($resultados as $chave=>$texto){
+      var_dump($resultados);
+        foreach($resultados as $chave=>$texto){
           $$chave = $texto;
       }
       curl_close($iniciar);
-    }
+    }*/
+    if (isset($_GET['enviar'])) {
+        $cnpj = $_GET['cnpj'];
+        $url = "https://www.receitaws.com.br/v1/cnpj/$cnpj";
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $resultado = json_decode(curl_exec($ch));
+        var_dump($resultado);
+        foreach ($resultado as $res=>$index) {
+            $$res = $index;
+           
+        }
+        curl_close($ch);
+    //______________________________________________________________________________
+     }
 
 
-   var_dump($resultados);
     
     ?>
 
@@ -44,7 +60,7 @@
 <div class="resultado">
     <h3>Resultados</h3>
     <label for="">Razão Social</label>
-    <input type="text" id="nome" value ="<?= $nome ?>">
+    <input type="text" id="nome" value ="<?= isset($nome)?$nome:''?>">
     <label for="">Nome Fantasia</label>
     <input type="text" value ='<?=$nome?>'>
     <label for="">Data de Abertura</label>
